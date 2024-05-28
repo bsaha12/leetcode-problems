@@ -7,11 +7,11 @@ class Solution {
         int sum = 0;
         while (j < n) {
             sum += Math.abs(s.charAt(j) - t.charAt(j));
-            while (i < j && sum > maxCost) {
+            while (sum > maxCost) {
                 sum -= Math.abs(s.charAt(i) - t.charAt(i));
                 i++;
             }
-            if(sum <= maxCost) result = Math.max(result, j - i + 1);
+            result = Math.max(result, j - i + 1);
             j++ ;
         }
         return result;
