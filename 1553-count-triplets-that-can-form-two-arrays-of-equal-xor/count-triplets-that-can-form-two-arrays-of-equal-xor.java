@@ -1,17 +1,20 @@
 class Solution {
     public int countTriplets(int[] arr) {
-        int count = 0 ;
-        for(int i = 0 ; i < arr.length - 1 ; i++){
-            int a = 0 ;
-            for(int j = i ; j < arr.length - 1 ; j++ ){
-                a = a ^ arr[j] ;
-                int b = 0 ;
-                for(int k = j + 1 ; k < arr.length ; k++){
-                    b = b ^ arr[k] ;
-                    if(b == a) count++ ;
+        int prefix[] = new int[arr.length + 1] ;
+        prefix[0] = 0 ;
+        for(int i = 1 ; i < prefix.length ; i++){
+            prefix[i] = prefix[i-1] ^ arr[i-1] ;
+        }
+
+        int res = 0 ;
+        for(int i = 0 ; i < prefix.length - 1  ; i++ ){
+            for(int j = i + 1 ; j < prefix.length ; j++){
+                if(prefix[i] == prefix[j] ){
+                    int len = j - i ;
+                    res += len - 1 ;
                 }
             }
         }
-        return count ;
-    }
+        return res ;
+    }//
 }
