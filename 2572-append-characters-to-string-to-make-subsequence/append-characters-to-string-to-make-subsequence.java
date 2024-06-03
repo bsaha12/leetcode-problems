@@ -1,14 +1,16 @@
 class Solution {
     public int appendCharacters(String s, String t) {
-        int result = 0;
+        char[] arr1 = s.toCharArray() ;
+        char[] arr2 = t.toCharArray() ;
+        int result = arr2.length;
         int i = 0 , j = 0 ;
-        while(i < s.length() && j < t.length() ){
-            if(s.charAt(i) == t.charAt(j)){
+        while(i < arr1.length && j < arr2.length ){
+            if(arr1[i] == arr2[j] ){
                 j++ ;
-                result++ ;
+                result-- ;
             }
             i++ ;
         }
-        return t.length() - result;
+        return  result;
     }
 }
