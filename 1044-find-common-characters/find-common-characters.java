@@ -18,7 +18,9 @@ class Solution {
         for(int i = 0 ; i < 26 ; i++){
             int counter = result[i] ;
             while(counter-- > 0){
-                list.add(  new String(  (char)( 'a' + i ) +"" ) );
+                char a = 'a' ;
+                a += i ;
+                list.add(  new String(  String.valueOf(a) ) );
             }
         }
         return list ;
