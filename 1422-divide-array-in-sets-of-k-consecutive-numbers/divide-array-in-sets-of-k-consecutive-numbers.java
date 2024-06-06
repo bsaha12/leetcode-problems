@@ -1,34 +1,24 @@
 class Solution {
-    public boolean isPossibleDivide(int[] nums, int k) {
-        Arrays.sort(nums);
-        for (int i = 0; i < nums.length; i++) {
-            if (nums[i] > 0) {
-                if (!isPossible(nums, i, k)) {
-                    return false;
+    public boolean isPossibleDivide(int[] nums, int size) {
+       if(nums.length % size != 0) return false ;
+        Arrays.sort(nums) ;
+        Map<Integer,Integer> map = new HashMap<>() ;
+        for(int num : nums){
+            map.put(num , map.getOrDefault(num , 0) + 1 ) ;
+        }
+        for(int num : nums ){
+            if(map.get(num) > 0 ){
+                int k = 0 ;
+                while(k < size){
+                    if(map.get(num + k) != null && map.get(num + k) > 0 ){
+                        map.put(num + k , map.get(num + k) - 1 ) ;
+                    }else{
+                        return false ;
+                    }
+                    k++ ;
                 }
             }
         }
-        return true;
-    }//
-
-    public boolean isPossible(int[] nums, int i, int k) {
-        int curr = nums[i] + 1;
-        nums[i] = 0;
-        i++;
-        int count = 1;
-        while (i < nums.length && count < k) {
-            if (nums[i] == curr) {
-                nums[i] = 0;
-                count++;
-                curr++;
-            }
-            i++;
-        }
-
-        if (count == k) {
-            return true;
-        }
-
-        return false;
+        return true ;
     }//
 }
