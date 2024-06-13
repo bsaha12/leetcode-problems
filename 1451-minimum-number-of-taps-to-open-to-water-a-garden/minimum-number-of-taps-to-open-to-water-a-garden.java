@@ -12,11 +12,9 @@ class Solution {
         //     System.out.println(temp) ;
         // }
         int count = 0, pos = 0 , lastReach = arr[0] ;
-        if(lastReach == n) return 1 ;
         while (pos < n && lastReach < n) {
             count++ ;
             int next = findNext(pos , arr , lastReach ) ;
-            System.out.println("lastReach : " + lastReach + " next : "+ next) ;
             if(next <= lastReach) return -1 ;
             pos = lastReach + 1 ;
             lastReach = next ;
