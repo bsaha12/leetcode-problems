@@ -5,7 +5,7 @@ class Solution {
         int nextAvailable = 0 ;
         for(int num : nums){
             if(num < nextAvailable){
-                count += Math.abs(nextAvailable - num) ;
+                count +=  nextAvailable - num ;
             }else{
                 nextAvailable = num ;
             }
