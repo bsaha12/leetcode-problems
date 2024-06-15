@@ -10,7 +10,7 @@ class Solution {
             }
         }
 
-        for(int i = ratings.length - 2 ; i >= 0 ; i--){
+        for(int i =  ratings.length - 2 ; i >= 0; i-- ){
             if(ratings[i] > ratings[i + 1] ){
                 marker[i] = Math.max(marker[i + 1] + 1 , marker[i] ) ;
             }
