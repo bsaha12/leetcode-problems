@@ -2,13 +2,6 @@ class Solution {
     public boolean judgeSquareSum(int c) {
         int n = (int) Math.sqrt(c) ;
 
-        // for(int i = 0 ; i <= n ; i++){
-        //     for(int j = 0 ; j <= n ; j++){
-        //         if(i*i + j*j == c) return true ;
-        //     }
-        // }
-        // return false ; 
-
         int i = 0 ;
         int j = n ;
         while(i <= j){
