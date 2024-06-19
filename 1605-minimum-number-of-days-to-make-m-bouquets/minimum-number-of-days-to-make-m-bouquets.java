@@ -1,16 +1,16 @@
 class Solution {
     int[] arr ; 
     public int minDays(int[] bloomDay, int m, int k) {
-        long max = 0 ;
+        int max = 0 ;
         for(int temp : bloomDay){
-            max = max + temp ;
+            max = Math.max(max , temp) ;
         }
         arr = bloomDay ;
-        long result = -1 ;
-        long low = 0 ;
-        long high = max ;
+        int result = -1 ;
+        int low = 0 ;
+        int high = max ;
         while(low <= high){
-            long mid = low + (high - low) / 2 ;
+            int mid = low + (high - low) / 2 ;
             if(isPossible(mid , m , k) ){
                 result = mid ;
                 high = mid - 1 ;
@@ -19,10 +19,10 @@ class Solution {
             }
         }
 
-        return (int)result ;
+        return result ;
     }//////
 
-    boolean isPossible(long days , int m , int k){
+    boolean isPossible(int days , int m , int k){
         int bouqueCount = 0 ;
         int i = 0 ;
         while(i < arr.length){
