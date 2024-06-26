@@ -17,23 +17,17 @@ class Solution {
     public TreeNode balanceBST(TreeNode root) {
         List<Integer> list = new ArrayList<>() ;
         inOrder(root , list) ;
-        int[] arr = new int[list.size() ] ;
-        int i = 0 ;
-        for(int num : list){
-            arr[i]= num ;
-            i++ ;
-        }
-        return makeTree(arr , 0 , arr.length - 1) ;
+        return makeTree(list , 0 , list.size() - 1) ;
     }//
 
-    TreeNode makeTree(int[] arr , int start , int end ){
+    TreeNode makeTree(List<Integer> list , int start , int end ){
         if(start > end)
             return null ;
 
         int mid = (start + end ) / 2 ;
-        TreeNode root = new TreeNode(arr[mid] ) ;
-        root.left = makeTree(arr , start , mid - 1 ) ;
-        root.right = makeTree(arr , mid + 1 , end ) ;
+        TreeNode root = new TreeNode(list.get(mid) ) ;
+        root.left = makeTree(list , start , mid - 1 ) ;
+        root.right = makeTree(list , mid + 1 , end ) ;
         return root ;
     }///
 
