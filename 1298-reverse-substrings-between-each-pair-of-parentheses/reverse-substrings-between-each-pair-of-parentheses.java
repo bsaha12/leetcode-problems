@@ -13,8 +13,6 @@ class Solution {
                 int k = st.pop() ;
                 marker[i] = k ;
                 marker[k] = i ;
-            }else{
-                marker[i] = -1 ;
             }
         }
 
