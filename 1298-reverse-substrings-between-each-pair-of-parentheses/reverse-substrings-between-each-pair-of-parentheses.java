@@ -1,47 +1,36 @@
 class Solution {
-    char[] arr;
-
     public String reverseParentheses(String s) {
-        StringBuilder result = new StringBuilder();
-        arr = s.toCharArray();
-        int open = 0;
-        for (int i = 0; i < arr.length; i++) {
-            char ch = arr[i];
-            if (ch >= 'a' && ch <= 'z') {
-                if (open == 0)
-                    result.append(ch);
-            } else if (ch == '(') {
-                if (open == 0)
-                    result.append(reverseStringWithinParenthesis(i));
-                open++;
-            } else {
-                open--;
+        char[] arr = s.toCharArray() ;
+        Stack<Integer> st = new Stack<>() ;
+        int n = arr.length ;
+        /// first pass 
+        int[] marker = new int[n] ;
+        for(int i = 0 ; i < n ; i++){
+            char ch = arr[i] ;
+            if(ch == '(' ){
+                st.push(i) ;
+            }else if(ch == ')'){
+                int k = st.pop() ;
+                marker[i] = k ;
+                marker[k] = i ;
+            }else{
+                marker[i] = -1 ;
             }
         }
-        return result.toString();
-    }///
 
-    String reverseStringWithinParenthesis(int pos) {
-        pos++;
-        int open = 1;
-        StringBuilder result = new StringBuilder();
-        for (int i = pos; i < arr.length; i++) {
-            if (open == 0) {
-                break;
+        //2nd pass
+        int i = 0 ;
+        StringBuilder result = new StringBuilder() ;
+        int dir = 1 ;
+        while(i < n){
+            if(arr[i] == ')' || arr[i] == '(' ){
+                i = marker[i] ;
+                dir *= -1 ;
+            }else{
+                result.append(arr[i] );
             }
-            char ch = arr[i];
-            if (ch >= 'a' && ch <= 'z') {
-                if (open == 1)
-                    result.append(ch);
-            } else if (ch == '(') {
-                if (open == 1)
-                    result.append(reverseStringWithinParenthesis(i));
-                open++;
-            } else {
-                open--;
-            }
+            i += dir ;
         }
-        return result.reverse().toString();
-    }///
-
+        return result.toString() ;
+    }/////
 }
