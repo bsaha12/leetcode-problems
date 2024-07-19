@@ -20,6 +20,7 @@ class Solution {
             }
             if(i == max){
                 list.add(matrix[i][min] ) ;
+                return list ;
             }
 
             i++ ;
