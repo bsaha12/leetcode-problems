@@ -15,16 +15,17 @@ class Solution {
     }//
 
     int mappedValue(int num, int[] mapping) {
-        StringBuilder str = new StringBuilder() ;
         if(num == 0 ){
             return mapping[0] ;
         }
+        int mappedValue = 0 ;
+        int place = 1 ;
         while(num > 0){
-            int rem = num % 10 ;
-            str.append( mapping[rem] ) ;
+            mappedValue += place*mapping[num % 10] ;
+            place = place*10 ;
             num = num / 10 ;
         }
         
-        return Integer.parseInt(str.reverse().toString()) ;
+        return mappedValue ;
     }///
 }
