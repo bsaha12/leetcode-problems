@@ -50,9 +50,9 @@ class Solution {
             Pair<Integer , Long> currNode = queue.poll() ;
             int currChar = currNode.getKey() ;
             long currCost = currNode.getValue() ;
-            // if(minCosts[currChar] != -1 && minCosts[currChar] < currCost ){
-            //     continue ;
-            // }
+            if(minCosts[currChar] != -1 && minCosts[currChar] < currCost ){
+                continue ;
+            }
 
             for(int[] arr : adjList[currChar] ){
                 int nextChar = arr[0] ;
