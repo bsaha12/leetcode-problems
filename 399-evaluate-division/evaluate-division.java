@@ -1,71 +1,52 @@
 class Solution {
+    Map<String , String> parent ;
+    Map<String , Double> weight ;
     public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
-        //1. create adjList , also get the set of unique strings
-        Set<String> variableSet = new HashSet<>() ;
-        for(List<String> equation : equations){
-            variableSet.add(equation.get(0)) ;
-            variableSet.add(equation.get(1)) ;
-        }
-        List<String> variables = new ArrayList<>(variableSet) ;
-        Map<String,Integer> map = new HashMap<>() ;
-        int i = 0 ;
-        for(String variable : variables){
-            map.put(variable , i) ;
-            i++ ;
-        }
-        int variableCount = variables.size() ;
-        double[][] adjMatrix = new double[variableCount][variableCount] ;
-        i = 0 ;
-        for(List<String> equation : equations){
-            int variable1 = map.get(equation.get(0))  ;
-            int variable2 = map.get(equation.get(1)) ;
-            double val = values[i] ;
-            double reverseVal = 1/val ;
-            adjMatrix[variable1][variable2] = val ;
-            adjMatrix[variable2][variable1] = reverseVal ;
-            i++ ;
-        }
-
-        //get the queries done
+        parent = new HashMap<>() ;
+        weight = new HashMap<>() ;
         int queryCount = queries.size() ;
         double[] result = new double[queryCount] ;
-        i = 0 ;
-        for(List<String> query :queries ){
-            double queryVal = -1 ;
-            Integer var1 = map.get(query.get(0));
-            Integer var2 = map.get(query.get(1));
-            if(var1 != null && var2 != null){
-                double pathVal = BFS(adjMatrix , var1 , var2) ;
-                queryVal = pathVal ;
-            }
-            result[i] = queryVal ;
+        int i = 0 ;
+        for(List<String> equation : equations){
+            union(equation.get(0) , equation.get(1) , values[i]) ;
             i++ ;
         }
-
-        return result ;
-
-    }//
-    public double BFS(double[][] adjMatrix , int var1 , int var2){
-        Queue<Integer> que = new LinkedList<>() ;
-        Set<Integer> visited = new HashSet<>() ;
-        que.add(var1) ;
-        visited.add(var1) ;
-        double[] pathVals = new double[adjMatrix.length] ; 
-        pathVals[var1] = 1 ;
-        while(!que.isEmpty()){
-            Integer curr = que.remove() ;
-            double currVal = pathVals[curr] ;
-            if(curr == var2) return currVal ;
-            int i = 0 ;
-            for(double weight : adjMatrix[curr]){
-                if(weight > 0 && !visited.contains(i)){
-                    visited.add(i) ;
-                    pathVals[i] = currVal * weight ;
-                    que.add(i) ;
-                }
-                i++ ;
+        i= 0 ;
+        for(List<String> query : queries){
+            String varA = query.get(0) ;
+            String varB = query.get(1) ;
+            if(!parent.containsKey(varA) || !parent.containsKey(varB) || !find(varA).equals(find(varB))){
+                result[i] = -1 ;
+            }else{
+                result[i] = weight.get(varA) / weight.get(varB) ;
             }
+            i++ ;
         }
-        return -1 ;
-    }////
+        return result ;
+    }//
+
+    public void union(String x , String y , double value){
+        if(!parent.containsKey(x)){
+            parent.put(x , x) ;
+            weight.put(x , 1.0) ;
+        }
+        if(!parent.containsKey(y)){
+            parent.put(y , y) ;
+            weight.put(y , 1.0) ;
+        }
+        String rpsX = find(x) ;
+        String rpsY = find(y) ;
+        parent.put(rpsX , rpsY) ;
+        weight.put(rpsX , value * weight.get(y)/weight.get(x)) ;////
+    }//
+
+    public String find(String x){
+        if(!x.equals(parent.get(x) )){
+            String originalParent = parent.get(x) ;
+            String rootX = find(originalParent) ;
+            parent.put(x , rootX) ;
+            weight.put(x , weight.get(x) * weight.get(originalParent)) ;
+        }
+        return parent.get(x) ;
+    }//
 }
