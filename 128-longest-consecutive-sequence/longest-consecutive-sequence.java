@@ -63,9 +63,9 @@ class UF{
     public int findLargestSetSize(){
         int maxSize = 0 ;
         for(int i = 0 ; i < size.length ; i++){
-            if(parent[i] == i){
+            // if(parent[i] == i){
                 maxSize = Math.max(maxSize , size[i]) ;
-            }
+            // }
         }
         return maxSize ;
     }
