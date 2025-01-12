@@ -18,7 +18,6 @@ class Solution {
                     parent.put(curr , curr) ;
                 }
                 union(curr , prev) ;
-                prev = curr ;
             }
         }
         Map<String , List<String>> resultMap = new HashMap<>() ; 
