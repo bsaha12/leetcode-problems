@@ -1,57 +1,75 @@
 class Solution {
-    Map<String , String> parent = new HashMap<>() ;
     public List<List<String>> accountsMerge(List<List<String>> accounts) {
-        Map<String , String> map = new HashMap<>() ;
-        for(List<String> currAccount : accounts){
-            int size = currAccount.size() ;
-            String name = currAccount.get(0) ;
-
-            String prev = currAccount.get(1) ;
-            map.put(prev , name) ;
-            if(!parent.containsKey(prev)){
-                parent.put(prev , prev) ;
-            }
-            for(int i = 2 ; i < size ; i++ ){
-                String curr = currAccount.get(i) ;
-                map.put(curr , name) ;
-                if(!parent.containsKey(curr)){
-                    parent.put(curr , curr) ;
+        int accountsSize = accounts.size() ;
+        UF uf = new UF(accountsSize) ;
+        Map<String , Integer> map = new HashMap<>() ;
+        int i = 0 ;
+        for(List<String> list : accounts){
+            int size = list.size() ;
+            for(int j = 1 ; j < size ; j++){
+                String mail = list.get(j) ;
+                if(map.containsKey(mail)){
+                    uf.union(i , map.get(mail)) ;
+                }else{
+                    map.put(mail , i) ;
                 }
-                union(curr , prev) ;
             }
+            i++ ;
         }
-        Map<String , List<String>> resultMap = new HashMap<>() ; 
+        // create result
+        Map<Integer , List<String>> resultMap = new HashMap<>() ;
         for(String email : map.keySet()){
-            String rps = find(email) ;
+            int rps = uf.find(map.get(email)) ;
             if(!resultMap.containsKey(rps)){
-                resultMap.put(rps , new ArrayList<>()) ;
+                resultMap.put(rps , new ArrayList<>() ) ;
             }
             resultMap.get(rps).add(email) ;
         }
 
-        List<List<String>> result = new ArrayList<>() ;
-        for(String rps : resultMap.keySet()){
-            List<String> emails = resultMap.get(rps) ;
-            Collections.sort(emails) ;
-            emails.add(0 , map.get(rps)) ;
-            result.add(emails) ;
+        //sort 
+        List<List<String>> mergedAccounts = new ArrayList<>() ;
+        for(int group : resultMap.keySet()){
+            List<String> component = resultMap.get(group) ;
+            Collections.sort(component) ;
+            String user = accounts.get(group).get(0) ;
+            component.add(0 , user) ;
+            mergedAccounts.add(component) ;
         }
-        return result ;
-
+        return mergedAccounts ;
     }//
-    public void union(String mail1 , String mail2){
-        String rps1 = find(mail1) ;
-        String rps2 = find(mail2) ;
-        if(rps1.equals(rps2)){
+}
+
+class UF{
+    int[] parent , size ;
+    public UF(int len){
+        parent = new int[len] ;
+        size = new int[len] ;
+        for(int i = 0 ; i < len ; i++){
+            size[i] = 1 ;
+            parent[i] = i ;
+        }
+    }
+
+    public void union(int x , int y){
+        int rpsX = find(x) ;
+        int rpsY = find(y) ;
+        if(rpsX == rpsY){
             return ;
         }
 
-        parent.put(rps1 , rps2) ;
-    }//
-    public String find(String mail){
-        if(!parent.get(mail).equals(mail)){
-            parent.put(mail , find(parent.get(mail))) ;
+        if(size[rpsX] >= size[rpsY]){
+            parent[rpsY] = rpsX ;
+            size[rpsX] += size[rpsY] ;
+        }else{
+            parent[rpsX] = rpsY ;
+            size[rpsY] += size[rpsX] ;
         }
-        return parent.get(mail) ;
-    }//
+    }
+
+    public int find(int x){
+        if(x != parent[x]){
+            parent[x] = find(parent[x]) ;
+        }
+        return parent[x] ;
+    }
 }
