@@ -2,37 +2,90 @@ class Solution {
     public int numEnclaves(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
+        UnionFind uf = new UnionFind(grid);
+
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                int val = grid[i][j];
-                if (i == 0 || j == 0 || i == m - 1 || j == n - 1) {
-                    DFS(i, j, grid);
+                int index = i * n + j;
+                if (grid[i][j] == 1) {
+                    if (i < m - 1 && grid[i + 1][j] == 1) {
+                        uf.union(index, index + n);
+                    }
+
+                    if (j < n - 1 && grid[i][j + 1] == 1) {
+                        uf.union(index, index + 1);
+                    }
+
                 }
             }
         }
 
-        int res = 0 ;
+        int count = 0;
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                res += grid[i][j];
+                int index = i * n + j;
+                if (grid[i][j] == 1 && !uf.isOnEdge(index)) {
+                    count++;
+                }
             }
         }
 
-        return res ;
+        return count;
+    }
+}
+
+class UnionFind {
+
+    private boolean isEdge[];
+    private int[] parent, size;
+
+    public UnionFind(int[][] grid){
+        int m = grid.length ;
+        int n = grid[0].length ;
+        parent = new int[m * n] ;
+        size = new int[m * n] ;
+        isEdge = new boolean[m* n] ;
+        for(int i = 0 ; i < m ; i++){
+            for(int j = 0 ; j < n ; j++){
+                int index = i * n + j ;
+                if(i == 0 || j == 0 || i == m - 1 || j == n-1 ){
+                    isEdge[index] = true ;
+                }
+                parent[index] = index ;
+                size[index] = 1 ;
+            }
+        }
     }
 
-    public void DFS(int i , int j , int[][] grid){
-        if(i < 0 || j < 0 || i >= grid.length || j >= grid[0].length){
-            return ;
-        }
-        if(grid[i][j] == 0){
-            return ;
+    public void union(int x, int y) {
+        int rpsX = find(x);
+        int rpsY = find(y);
+
+        if (rpsX == rpsY) {
+            return;
         }
 
-        grid[i][j] = 0 ;
-        DFS(i , j + 1 , grid) ;
-        DFS(i , j - 1 , grid) ;
-        DFS(i + 1 , j , grid) ;
-        DFS(i - 1 , j , grid) ;
+        if (size[rpsX] > size[rpsY]) {
+            size[rpsX] += size[rpsY];
+            parent[rpsY] = rpsX;
+        } else {
+            size[rpsY] += size[rpsX];
+            parent[rpsX] = rpsY;
+        }
+
+        isEdge[rpsX] = isEdge[rpsX] || isEdge[rpsY];
+        isEdge[rpsY] = isEdge[rpsY] || isEdge[rpsX];
+    }
+
+    public int find(int x) {
+        if (x != parent[x]) {
+            parent[x] = find(parent[x]);
+        }
+        return parent[x];
+    }
+
+    public boolean isOnEdge(int x) {
+        int rpsX = find(x);
+        return isEdge[rpsX];
     }
 }
