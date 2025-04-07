@@ -5,23 +5,26 @@ class Solution {
         for(int num : nums){
             set.add(num) ;
         }
-
-        int longestSeq = 0 ;
+        int longestLen = 0 ;
         for(int num : nums){
-            longestSeq = Math.max(findSeqWithNumber(num) , longestSeq) ;
+            int currLen = findDistance(num) ;
+            longestLen = Math.max(longestLen , currLen) ;
         }
-        return longestSeq ;
-    }//
 
-    public int findSeqWithNumber(int num){
+        return longestLen ;
+    }///
+
+    public int findDistance(int num){
         if(!set.contains(num)){
             return 0 ;
         }
 
         set.remove(num) ;
-        int rightCount = findSeqWithNumber(num+1) ;
-        int leftCount = findSeqWithNumber(num-1) ; 
 
-        return rightCount + leftCount + 1 ;
-    }//
+        int curr = 1 ;
+        curr += findDistance(num-1) ;
+        curr += findDistance(num+1) ;
+
+        return curr ;
+    }
 }
