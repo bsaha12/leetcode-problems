@@ -14,7 +14,10 @@ class Solution {
         // adjList creation
         createAdjList() ;
 
-        Queue<Node> queue = new LinkedList<>() ;
+        // Queue<Node> queue = new LinkedList<>() ;
+        PriorityQueue<Node> queue = new PriorityQueue<>(
+            (a , b) -> Integer.compare(a.distance , b.distance)
+        ) ;
         Set<Integer> set = new HashSet<>() ;
 
         weight[k] = 0 ;
