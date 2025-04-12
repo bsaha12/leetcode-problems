@@ -31,15 +31,10 @@ class Solution {
             int value = node.value ;
 
             set.add(value) ;
-            // System.out.println("Value : "+  value) ;
-            // System.out.println("Distance : "+  distance) ;
-            // System.out.println("Diatance : " + adjList[value]) ;
 
             for(List<Integer> list : adjList[value]){
                 int nextNodeValue = list.get(0) ;
                 int nextNodePathWeight = list.get(1) ;
-                // System.out.println("Next Node Value : " + nextNodeValue) ;
-                // System.out.println("Next Path weight : " + nextNodePathWeight) ;
 
                 if(weight[nextNodeValue] > nextNodePathWeight + distance){
                     weight[nextNodeValue] = nextNodePathWeight + distance ;
@@ -52,7 +47,6 @@ class Solution {
 
 
         // minimum time calculation
-        // System.out.println(set.size()) ;
         if(set.size() < n) return -1 ;
         int result = 0 ;
         for(int i = 1 ; i <= n ; i++ ){
