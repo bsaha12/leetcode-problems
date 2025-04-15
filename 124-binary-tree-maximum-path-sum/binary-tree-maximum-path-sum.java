@@ -14,38 +14,22 @@
 * }
 */
 class Solution {
+    int maxValue = Integer.MIN_VALUE ;
     public int maxPathSum(TreeNode root) {
-        int[] result = new int[1] ;
-        result[0] = Integer.MIN_VALUE ;
-        maxPathSumHelper(root , result) ;
-        return result[0] ;
+        maxPathSumHelper(root ) ;
+        return maxValue ;
     }
 
-    public int maxPathSumHelper(TreeNode root , int[] result){
-        if(root == null) return Integer.MIN_VALUE ;
+    public int maxPathSumHelper(TreeNode root){
+        if(root == null) return 0 ;
 
         int rootValue = root.val ;
-        int right = maxPathSumHelper(root.right , result) ;
-        int left = maxPathSumHelper(root.left , result) ;
+        int right = maxPathSumHelper(root.right) ;
+        int left = maxPathSumHelper(root.left) ;
 
-        result[0] = Math.max(result[0] , rootValue) ;
-        result[0] = Math.max(result[0] , right) ;
-        result[0] = Math.max(result[0] , left) ;
+        int possibleMax = rootValue + Math.max(0 , right) + Math.max(left , 0) ;
+        maxValue = Math.max(maxValue , possibleMax) ;
 
-        if(right < 0 && left < 0){
-            return rootValue ;
-        }else if(right >= 0 && left < 0 ){
-            int rightSum = right + rootValue ;
-            result[0] = Math.max(rightSum , result[0]) ;
-            return rightSum ;
-        }else if(left >=0 && right < 0){
-            int leftSum = left + rootValue ;
-            result[0] = Math.max(leftSum , result[0]) ;
-            return leftSum ;
-        }else{
-            int total = right + left + rootValue ;
-            result[0] = Math.max(total , result[0]) ;
-            return Math.max(right + rootValue , left + rootValue) ;
-        }
+        return rootValue + Math.max(0 , Math.max(right , left)) ;
     }
 }
