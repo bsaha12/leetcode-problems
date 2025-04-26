@@ -19,9 +19,11 @@ class Solution {
         if(root == null) return false ;
 
         boolean isCurrentValueMatching = root.val == p.val || root.val == q.val ;
+        boolean isPGreater = p.val > root.val ;
+        boolean isQGreater = q.val > root.val ;
 
-        boolean left = helper(root.left , p , q) ;
-        boolean right = helper(root.right , p , q) ;
+        boolean left = isPGreater && isQGreater ? false : helper(root.left , p , q) ;
+        boolean right = !isPGreater && !isQGreater ? false : helper(root.right , p , q);
 
         if(left && right) LCA = root ;
         else if(isCurrentValueMatching && (left || right )) LCA = root ;
