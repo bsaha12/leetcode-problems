@@ -11,11 +11,8 @@ class Solution {
 
         int i = 0 ;
         for(int j = 0 ; j < s2.length() ; j++){
-            char curr = s2.charAt(j) ;
-            if(j - i + 1 < s1.length()){
-                window[curr - 'a']++ ;
-            }else{
-                window[curr - 'a']++ ;
+            window[s2.charAt(j) - 'a']++ ;
+            if(j - i + 1 == s1.length()){
                 if(matches(window , str1)) return true ;
                 window[s2.charAt(i) - 'a']-- ;
                 i++ ;
