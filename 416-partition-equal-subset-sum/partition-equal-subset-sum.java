@@ -57,20 +57,20 @@ class Solution {
 
     }
 
-    public boolean helper(int i, int sum) {
-        if (sum == 0)
-            return true;
-        if (i == arr.length)
-            return false;
+    // public boolean helper(int i, int sum) {
+    //     if (sum == 0)
+    //         return true;
+    //     if (i == arr.length)
+    //         return false;
 
-        if (dp[i][sum] != null)
-            return dp[i][sum];
+    //     if (dp[i][sum] != null)
+    //         return dp[i][sum];
 
-        if (arr[i] > sum)
-            dp[i][sum] = helper(i + 1, sum);
-        else
-            dp[i][sum] = helper(i + 1, sum) || helper(i + 1, sum - arr[i]);
+    //     if (arr[i] > sum)
+    //         dp[i][sum] = helper(i + 1, sum);
+    //     else
+    //         dp[i][sum] = helper(i + 1, sum) || helper(i + 1, sum - arr[i]);
 
-        return dp[i][sum];
-    }
+    //     return dp[i][sum];
+    // }
 }
