@@ -23,17 +23,37 @@ class Solution {
         // source -> ( n , 0) ;
         // target -> (0 , sum) ;
 
+        // for (int i = n - 1; i >= 0; i--) {
+        //     boolean[] currRow = dp[i] ;
+        //     boolean[] prevRow = dp[i + 1] ;
+        //     for (int j = 1; j <= sum; j++) {
+        //         if (nums[i] > j) {
+        //             currRow[j] = prevRow[j];
+        //         } else {
+        //             currRow[j] = prevRow[j - nums[i]] || prevRow[j];
+        //         }
+        //     }
+        // }
+
+        // return dp[0][sum];
+
+        boolean[] prev = new boolean[sum + 1] ;
+        prev[0] = true ;
+
         for (int i = n - 1; i >= 0; i--) {
+            boolean[] curr = new boolean[sum + 1] ;
+            curr[0] = true ;
             for (int j = 1; j <= sum; j++) {
                 if (nums[i] > j) {
-                    dp[i][j] = dp[i + 1][j];
+                    curr[j] = prev[j];
                 } else {
-                    dp[i][j] = dp[i + 1][j - nums[i]] || dp[i + 1][j];
+                    curr[j] = prev[j - nums[i]] || prev[j];
                 }
             }
+            prev = curr ;
         }
 
-        return dp[0][sum];
+        return prev[sum];
 
     }
 
