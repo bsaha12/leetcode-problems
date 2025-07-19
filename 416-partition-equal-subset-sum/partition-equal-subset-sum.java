@@ -12,13 +12,13 @@ class Solution {
 
         sum = sum / 2; // target sum is half the value
         int n = nums.length;
-        boolean[][] dp = new boolean[n + 1][sum + 1];
+        // boolean[][] dp = new boolean[n + 1][sum + 1];
 
         // initialize 
         // i = n --> false , sum = 0 -> true; (sum = 0 will override i = n)
-        for (int i = 0; i <= n; i++) {
-            dp[i][0] = true;
-        }
+        // for (int i = 0; i <= n; i++) {
+        //     dp[i][0] = true;
+        // }
 
         // source -> ( n , 0) ;
         // target -> (0 , sum) ;
