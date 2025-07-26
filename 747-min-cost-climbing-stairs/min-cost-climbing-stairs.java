@@ -7,7 +7,7 @@ class Solution {
         // return Math.min(helper(0 , cost) , helper(1 , cost)) ;
 
         int n = cost.length;
-        int[] dp = new int[n + 1];
+        // int[] dp = new int[n + 1];
         // dp[0] = cost[0];
         // dp[1] = cost[1];
         // int prev = cost[1] ;
@@ -19,15 +19,14 @@ class Solution {
         // }
         // return prev;
 
-        dp[n] = 0 ;
+        int prev = 0 ;
+        int step2back = Integer.MAX_VALUE ;
         for(int i = n - 1 ; i >= 0 ; i--){
-            int nextCost = Integer.MAX_VALUE ;
-            nextCost =  i + 2 <= cost.length ? Math.min(nextCost , dp[i+2]) : nextCost ;
-            nextCost = Math.min(nextCost , dp[i+1]) ;
-            dp[i] = cost[i] + nextCost ;
+            int curr = cost[i] + Math.min(prev , step2back) ;
+            step2back = prev ;
+            prev = curr ;
         }
-
-        return Math.min(dp[0] , dp[1] ) ;
+        return Math.min(prev , step2back ) ;
     }
 
 
