@@ -3,21 +3,22 @@ class Solution {
     // int[] cache;
 
     public int numDecodings(String s) {
-        char[] arr = s.toCharArray();
+        // char[] arr = s.toCharArray();
         // int[] cache = new int[arr.length + 1];
         // Arrays.fill(cache, -1);
-        int n = arr.length;
+        // int n = arr.length;
         // cache[n] = 1;
+        int n = s.length() ;
 
         int oneStepBefore = 1 ;
         int twoStepBefore = 1 ;
         for (int i = n - 1; i >= 0; i--) {
             int result = 0;
-            if (arr[i] != '0') {
+            if (s.charAt(i) != '0') {
                 // result = cache[i + 1];
                 // result += i + 1 < arr.length && Integer.parseInt(arr[i] + "" + arr[i + 1]) <= 26 ? cache[i + 2] : 0;
                 result = oneStepBefore;
-                result += i + 1 < arr.length && Integer.parseInt(arr[i] + "" + arr[i + 1]) <= 26 ? twoStepBefore : 0;
+                result += i + 1 < n && Integer.parseInt(s.substring(i , i + 2)) <= 26 ? twoStepBefore : 0;
             }
 
             // cache[i] = result;
