@@ -1,10 +1,10 @@
 class Solution {
-    char[] arr;
-    int[] cache;
+    // char[] arr;
+    // int[] cache;
 
     public int numDecodings(String s) {
-        arr = s.toCharArray();
-        cache = new int[arr.length + 1];
+        char[] arr = s.toCharArray();
+        int[] cache = new int[arr.length + 1];
         // Arrays.fill(cache, -1);
         int n = arr.length;
         cache[n] = 1;
