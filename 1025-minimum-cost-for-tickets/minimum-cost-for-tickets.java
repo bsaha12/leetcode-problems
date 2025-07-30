@@ -5,12 +5,14 @@ class Solution {
         d = days ;
         c = costs ;
         cache = new int[days.length + 1] ;
+
+
         Arrays.fill(cache , -1) ;
         return helper(0) ;
     }
 
     public int helper(int i){
-        if(i >= d.length) return 0 ;
+        if(i == d.length) return 0 ;
 
         if(cache[i] != -1) return cache[i] ;
 
