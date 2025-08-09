@@ -11,21 +11,29 @@ class Solution {
         // }
         // return helper(0, n - 1);
 
+        int[] prev = new int[n] ;
+
         for(int i = n - 1 ; i >= 0 ; i--){
-            for(int j = i ; j < n ; j++){
-                if(i == j){
-                    cache[i][j] = 1 ;
-                    continue ;
-                }
+            int[] curr = new int[n] ;
+            curr[i] = 1 ;
+            for(int j = i + 1 ; j < n ; j++){
+                // if(i == j){
+                //     cache[i][j] = 1 ;
+                //     continue ;
+                // }
                 if(s[i] == s[j]){
-                    cache[i][j] = 2 + cache[i + 1][j - 1] ;
+                    // cache[i][j] = 2 + cache[i + 1][j - 1] ;
+                    curr[j] = 2 + prev[ j - 1] ;
                 }else{
-                    cache[i][j] = Math.max(cache[i][j-1] , cache[i+1][j]) ;
+                    // cache[i][j] = Math.max(cache[i][j-1] , cache[i+1][j]) ;
+                    curr[j] = Math.max(curr[j - 1] , prev[j]) ;
                 }
             }
+            prev = curr ;
         }
 
-        return cache[0][n - 1] ;
+        // return cache[0][n - 1] ;
+        return prev[n - 1] ; 
     }
 
     // public int helper(int i, int j) {
