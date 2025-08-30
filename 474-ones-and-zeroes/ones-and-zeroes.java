@@ -1,29 +1,35 @@
 class Solution {
     public int findMaxForm(String[] strs, int m, int n) {
         int len = strs.length ;
-        int[][] counts = new int[len][2] ;
-        for(int i = 0 ; i < len ; i++){
-            String str = strs[i] ;
-            int zeroes = 0 ;
-            int ones = 0 ;
-            int length = str.length() ;
-            for(int j = 0 ; j < length ; j++){
-                if(str.charAt(j) == '1' ){
-                    ones++ ;
-                }else{
-                    zeroes++ ;
-                }
-            }
-            counts[i][0] = zeroes ;
-            counts[i][1] = ones ;
-        }
+        // int[][] counts = new int[len][2] ;
+        // for(int i = 0 ; i < len ; i++){
+        //     String str = strs[i] ;
+        //     int zeroes = 0 ;
+        //     int ones = 0 ;
+        //     int length = str.length() ;
+        //     for(int j = 0 ; j < length ; j++){
+        //         if(str.charAt(j) == '1' ){
+        //             ones++ ;
+        //         }else{
+        //             zeroes++ ;
+        //         }
+        //     }
+        //     counts[i][0] = zeroes ;
+        //     counts[i][1] = ones ;
+        // }
 
         // return helper(counts , 0 , m , n) ;
         int[][] prev = new int[m + 1][n + 1] ;
         for(int x = len - 1 ; x >= 0 ; x-- ){
             int[][] curr = new int[m + 1][n + 1] ;
-            int zC = counts[x][0] ;
-            int oC = counts[x][1] ;
+            int zC = 0 ; // counts[x][0] ;
+            int oC = 0 ; // counts[x][1] ;
+            String str = strs[x] ;
+            int strLen = str.length() ;
+            for(char ch : str.toCharArray()){
+                if(ch == '0') zC++ ;
+                else oC++ ;
+            }
             for(int i = 0 ; i <= m ; i++){
                 for(int j = 0 ; j <= n ; j++){
                     int result = 0 ;
