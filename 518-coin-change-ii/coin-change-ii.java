@@ -2,7 +2,7 @@ class Solution {
     int[] coins ;
     int[][] cache ;
     public int change(int amount, int[] coins) {
-        Arrays.sort(coins) ;
+        // Arrays.sort(coins) ;
         this.coins = coins ;
 
         // int[] dp = new int[amount + 1] ;
