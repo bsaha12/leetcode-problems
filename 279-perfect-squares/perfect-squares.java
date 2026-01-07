@@ -16,25 +16,32 @@ class Solution {
         int dp[] = new int[n + 1] ;
         dp[1] = 1 ; 
         for(int i = 2 ; i <= n ; i++){
-            if(isPerfectSquare(i)){
-                dp[i] = 1 ;
-                continue ;
+            // if(isPerfectSquare(i)){
+            //     dp[i] = 1 ;
+            //     continue ;
+            // }
+            // int cnt = 1 ;
+            // int min = i ;
+            // int mid = i % 2 == 0 ? i / 2 : (i / 2) + 1 ;
+            // while(cnt <= mid){
+            //     int first = dp[cnt] ;
+            //     int second = dp[i - cnt] ;
+            //     min = Math.min(min , first + second) ;
+            //     cnt++ ;
+            // }
+            // dp[i] = min ;
+
+            dp[i] = i ;
+            int j = 1;
+            while(j * j <= i ){
+                dp[i] = Math.min(dp[i] , 1 + dp[i - j*j]) ;
+                j++ ;
             }
-            int cnt = 1 ;
-            int min = i ;
-            int mid = i % 2 == 0 ? i / 2 : (i / 2) + 1 ;
-            while(cnt <= mid){
-                int first = dp[cnt] ;
-                int second = dp[i - cnt] ;
-                min = Math.min(min , first + second) ;
-                cnt++ ;
-            }
-            dp[i] = min ;
         }
         return dp[n] ;
     }
 
-    public boolean isPerfectSquare(int n){
-        return ((int)Math.sqrt(n) * (int)Math.sqrt(n)) == n ;
-    }
+    // public boolean isPerfectSquare(int n){
+    //     return ((int)Math.sqrt(n) * (int)Math.sqrt(n)) == n ;
+    // }
 }
