@@ -1,44 +1,48 @@
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
+        // preparing adjacency list
         List<List<Integer>> adjList = new ArrayList<>() ;
+
         for(int i = 0 ; i < numCourses ; i++){
             adjList.add(new ArrayList<>()) ;
         }
-        for(int[] edge : prerequisites){
-            int u = edge[0] ;
-            int v = edge[1] ;
-            adjList.get(u).add(v) ;
+
+        for(int[] edge : prerequisites ){
+            int from = edge[1] ;
+            int to = edge[0] ;
+
+            adjList.get(from).add(to) ;
         }
 
-        boolean result = false ;
         boolean[] visited = new boolean[numCourses] ;
         boolean[] recStack = new boolean[numCourses] ;
 
+        boolean isCyclicGraph = false ;
         for(int i = 0 ; i < numCourses ; i++){
-            result = result || isCyclic(i , adjList , visited , recStack) ;
+            if(!visited[i]){
+                isCyclicGraph = isCyclicGraph || isCyclic(i , adjList , visited , recStack) ;
+            }
         }
 
-        return !result ;
-    }//
+        return !isCyclicGraph ;
+    }
 
-    boolean isCyclic(int vertex , List<List<Integer>> adjList , boolean[] visited , boolean[] recStack ){
-        if(visited[vertex]){
-            return false ;
-        }
+    public boolean isCyclic(int node, List<List<Integer>> adjList, boolean[] visited, boolean[] recStack){
 
-        // main processing
-        visited[vertex] = true ;
-        recStack[vertex] = true ;
+        visited[node] = true ;
+        recStack[node] = true ;
 
-        boolean result = false ;
-        for(int neighbor : adjList.get(vertex)){
-            if(!visited[neighbor]){
-                result = result || isCyclic(neighbor , adjList , visited , recStack);
-            }else if(recStack[neighbor]){
+        boolean isCyclicGraph = false;
+        for(int next : adjList.get(node)){
+            if(!visited[next]){
+                isCyclicGraph = isCyclicGraph || isCyclic(next, adjList, visited, recStack);
+            }else if(recStack[next]){
                 return true ;
             }
         }
-        recStack[vertex] = false ;
-        return result ;
+
+        recStack[node] = false;
+
+        return isCyclicGraph ;
     }
 }
