@@ -9,25 +9,26 @@
  */
 
 class Solution {
-    TreeNode LCA ;
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        helper(root , p , q) ;
-        return LCA ;
-    }
+        if(root == null) return null ;
+        
+        int val = root.val ;
+        int valP = p.val ;
+        int valQ = q.val ;
 
-    public boolean helper(TreeNode root , TreeNode p , TreeNode q){
-        if(root == null) return false ;
+        // advantage of binary search tree
+        // lies in between
+        if((val < valP && val > valQ) || (val > valP && val < valQ)) return root;
 
-        boolean isCurrentValueMatching = root.val == p.val || root.val == q.val ;
-        boolean isPGreater = p.val > root.val ;
-        boolean isQGreater = q.val > root.val ;
+        // self lca
+        if(val == valP || val == valQ ) return root ;
 
-        boolean left = isPGreater && isQGreater ? false : helper(root.left , p , q) ;
-        boolean right = !isPGreater && !isQGreater ? false : helper(root.right , p , q);
+        // valP and valQ both is greater
+        if(valP > val){
+            return lowestCommonAncestor(root.right, p, q) ;
+        }else{
+            return lowestCommonAncestor(root.left, p, q) ;
+        }
 
-        if(left && right) LCA = root ;
-        else if(isCurrentValueMatching && (left || right )) LCA = root ;
-
-        return isCurrentValueMatching || left || right ;
     }
 }
