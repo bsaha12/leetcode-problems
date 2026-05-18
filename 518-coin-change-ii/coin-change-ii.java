@@ -1,38 +1,22 @@
 class Solution {
     public int change(int amount, int[] coins) {
-        int[] prev = new int[amount + 1] ;
-        prev[0] = 1 ;
-        for(int start = coins.length - 1 ; start >= 0 ; start--){
-            int currVal = coins[start] ;
-            int[] curr = new int[amount + 1] ;
-            curr[0] = 1 ;
-            for(int i = 1 ; i <= amount ; i++){
-                int result = prev[i] ;
-                if(i - currVal >= 0){
-                    result += curr[i - currVal];
-                }
-                curr[i] = result ;
-            }
-            prev = curr ;
+        int[][] cache = new int[amount + 1][coins.length + 1] ;
+        for(int[] arr: cache){
+            Arrays.fill(arr, -1) ;
         }
-        return prev[amount] ;
+        return helper(amount, 0, coins, cache) ;
     }
+    public int helper(int amount, int i, int[] coins, int[][] cache){
+        if(amount < 0) return 0;
+        if(amount == 0) return 1;
 
-    // public int helper(int start , int amount){
+        if(i >= coins.length) return 0 ;
 
-    //     if(amount == 0) return 1 ;
-    //     if(start >= coins.length) return 0 ;
+        if(cache[amount][i] != -1) return cache[amount][i] ;
 
-    //     if(cache[start][amount] != -1) return cache[start][amount] ;
+        int chosen = helper(amount - coins[i], i, coins, cache);
+        int skip = helper(amount, i + 1, coins, cache);
 
-    //     int curr = coins[start] ;
-
-    //     int result = helper( start + 1 , amount) ;
-
-    //     if(amount - curr >= 0){
-    //         result += helper(start , amount - curr) ;
-    //     }
-
-    //     return cache[start][amount] = result ;
-    // }
+        return  cache[amount][i] = chosen + skip ;
+    }
 }
